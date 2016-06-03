@@ -12,6 +12,9 @@
 			"role": "Creator"
 		}
 	],
+	"require": {
+		"bower-asset/jquery-radionomy": "*"
+	},
 	"autoload": {
 		"psr-4": {
 			"machour\\yii2\\radionomy\\player\\": ""

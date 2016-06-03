@@ -5,6 +5,7 @@ namespace machour\yii2\radionomy\player;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 class RadionomyPlayer extends Widget
 {
@@ -34,6 +35,11 @@ class RadionomyPlayer extends Widget
     public $color2 = '#ff844f';
 
     /**
+     * @var array Breakpoints to change types
+     */
+    public $breakpoints = [];
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -49,29 +55,23 @@ class RadionomyPlayer extends Widget
      */
     public function run()
     {
-        echo Html::tag('div', '', ['class' => 'radionomy-player']);
-        echo Html::tag('script', <<<RAD
-(function (win, doc, script, source, objectName) {
-  (win.RadionomyPlayerObject = win.RadionomyPlayerObject || []).push(objectName);
-  win[objectName] = win[objectName] || function (k, v) {
-          (win[objectName].parameters = win[objectName].parameters || {
-                  src: source,
-                  version: '1.1'
-              })[k] = v;
-      };
-  var js, rjs = doc.getElementsByTagName(script)[0];
-  js = doc.createElement(script);
-  js.async = 1;
-  js.src = source;
-  rjs.parentNode.insertBefore(js, rjs);
-}(window, document, 'script', 'https://www.radionomy.com/js/radionomy.player.js', 'radplayer'));
-radplayer('url', '{$this->url}');
-radplayer('type', '{$this->type}');
-radplayer('autoplay', '{$this->autoplay}');
-radplayer('volume', '{$this->volume}');
-radplayer('color1', '{$this->color1}');
-radplayer('color2', '{$this->color2}');
-RAD
-        );
+        RadionomyPlayerAssets::register($this->view);
+
+        echo Html::tag('div', '', ['id' => $this->id]);
+
+        ksort($this->breakpoints);
+
+        $config = Json::encode([
+            'url' => $this->url,
+            'autoplay' => $this->autoplay,
+            'type' => $this->type,
+            'volume' => $this->volume,
+            'color1' => $this->color1,
+            'color2' => $this->color2,
+        ]);
+
+        $breakpoints = Json::encode($this->breakpoints);
+
+        $this->view->registerJs("$('#$this->id').radionomy($config, $breakpoints);");
     }
 }
