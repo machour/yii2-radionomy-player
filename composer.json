@@ -1,0 +1,20 @@
+{
+	"name": "machour/yii2-radionomy-player",
+	"description": "A wrapper for Radionomy player",
+	"keywords": ["radionomy", "yii2", "radio"],
+	"homepage": "https://github.com/machour/yii2-radionomy-player",
+	"type": "yii2-extension",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Mehdi Achour",
+			"homepage": "https://machour.idk.tn/",
+			"role": "Creator"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"machour\\yii2\\radionomy\\player\\": ""
+		}
+	}
+}
